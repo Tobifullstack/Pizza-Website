@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: content-box;
+        text-decoration: none;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        position: relative;
+        height: fit-content;
+        overflow-x: hidden;
+    }
+
+    nav {
+        width: 100vw;
+        background: rgb(0, 0, 0, 1);
+        height: fit-content;
+        padding: 1em 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .logo {
+        width: 3em;
+        height: 3em;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .links {
+        display: none;
+
+    }
+
+    nav a {
+        transition: .6s;
+        padding: .3em;
+    }
+
+    nav a:hover {
+        color: wheat;
+        text-decoration: 1px solid underline;
+    }
+
+    a {
+        color: white;
+        font-weight: bolder;
+        font-size: larger;
+    }
+
+    .menu-bar a {
+        color: white;
+    }
+
+    .menu-bar {
+        height: fit-content;
+        padding: 11em 0;
+        width: 25vh;
+        background: cornflowerblue;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2em;
+        position: absolute;
+        right: 0;
+        transition: .5s;
+    }
+
+    .fill {
+        height: fit-content;
+        padding: 9em 0;
+        width: 25vh;
+        background: cornflowerblue;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2em;
+        position: absolute;
+        right: -20em;
+    }
+
+    /* .hide-menu{
+    display: none;
+} */
+    .front-view {
+        height: 100vh;
+        width: 100vw;
+        background-size: cover;
+        background-position: center;
+        background: linear-gradient(to top right, rgba(0, 0, 100, .8), rgba(0, 0, 0, .8)), url('https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1714237803~exp=1714241403~hmac=049d41831cc104ae59e8881fd20232d6bb8c7f3f43eafe3816dcfdd71aad4169&w=740');
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: .7em;
+        padding: 1em 0;
+    }
+
+    .front-view h1 {
+        font-size: 3rem;
+        text-align: center;
+        color: antiquewhite;
+        font-family: sans-serif serif;
+    }
+
+    .front-view p {
+        font-size: xx-large;
+        color: slateblue;
+    }
+
+    button {
+        padding: .8em 2em;
+        border: none;
+        font-weight: 700;
+        background-color: cornflowerblue;
+        border-radius: .5em;
+        color: antiquewhite;
+        transition: .5s;
+        margin-top: 1em;
+    }
+
+    button:hover {
+        scale: 1.16;
+        box-shadow: 5px 5px 10px slategrey;
+    }
+
+    .about {
+        width: 100vw;
+        height: fit-content;
+        background: black;
+
+    }
+
+    .display {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .items {
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .5em;
+        padding: .5em;
+    }
+
+    .food {
+        background: transparent;
+        box-shadow: 2px 3px 9px gray;
+        border-radius: .8em;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+    }
+    img{
+        transition: .8s;
+    }
+    img:hover{
+        scale: 1.05;
+    }
+
+    @media screen and (min-width:720px) {
+        .links {
+            display: flex;
+            gap: .5em;
+            color: beige;
+        }
+
+        .menu {
+            display: none;
+        }
+
+        .menu-bar {
+            display: none;
+        }
+
+        .front-view {
+            height: 100vh;
+            width: 100vw;
+            background-size: cover;
+            background-position: right;
+            background: linear-gradient(to top right, rgba(0, 0, 100, .8), rgba(0, 0, 0, .8)), url('https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1714237803~exp=1714241403~hmac=049d41831cc104ae59e8881fd20232d6bb8c7f3f43eafe3816dcfdd71aad4169&w=740');
+            background-repeat: no-repeat;
+
+        }
+
+        .display {
+            flex-direction: row;
+        }
+        .items{
+            grid-template-columns:1fr 1fr 1fr ;
+            gap: 1em;
+        }
+    }
+</style>
+
+<body>
+    <!-- NAV BAR -->
+    <nav>
+        <div>
+            <img class="logo"
+                src="data:image/png;base64,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"
+                alt="">
+        </div>
+
+        <div class="links">
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#menu">Menu</a>
+            <a href="#">Review</a>
+            <a href="#">Product</a>
+        </div>
+
+        <div class="icon" style="display: flex;gap: 2em;">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-search"
+                viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-cart2"
+                viewBox="0 0 16 16">
+                <path
+                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
+            </svg>
+
+            <svg class="menu" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+            </svg>
+
+        </div>
+    </nav>
+
+    <!-- MENU BAR  -->
+    <div class="menu-bar">
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#">Review</a>
+        <a href="#">Product</a>
+    </div>
+
+    <!-- Background Section -->
+    <section class="front-view">
+        <h1>Deep Dish Delights: Dive into Deliciousness!</h1>
+        <p> "No one outpizzas the hut ... &malt;"</p>
+        <button> Get it Now </button>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div>
+            <h1 style="color: antiquewhite;text-align: center;font-size: xxx-large;padding: .5em 0;">About <span
+                    style="color: cornflowerblue;">Us</span></h1>
+        </div>
+
+        <div class="display">
+            <div>
+                <img style="width: 30em;height: 60%;margin: auto;object-fit: cover;"
+                    src="https://img.freepik.com/free-photo/freshly-italian-pizza-with-mozzarella-cheese-slice-generative-ai_188544-12347.jpg?t=st=1714241839~exp=1714245439~hmac=7112ab486181bf61677986d8322df429347bb967b61cae134194bdc26d33fa0a&w=740"
+                    alt="">
+            </div>
+
+            <div
+                style="color: white;padding: 2em;text-align: justify;line-height: 1.4em;word-spacing: .5em;letter-spacing: .2em;">
+
+                Domino's is the American Based Eating Joint which has a chain system in all over the world. It was
+                established in early 1960. Domino's is the second largest pizza restaurant in America but with its great
+                success it is recognized as one of the largest restaurant in the world. The first international store
+                was opened by this brand in 1983 in Winnipeg, Manitoba, Canada. Following its rapid growth this company
+                was able to present itself in India in 2007. Domino's had first started with serving pizza in the market
+                due to which it is known as pizza restaurant but later it has added some other dishes too in its menu
+                such as pazzta, oven baked sandwiches, desserts.
+                In this essay, I would like to write about Domino's Canada, what I experienced here. I belong to India
+                which is a cultural and religious country. I came here in Canada for studying few weeks back. Talking
+                about Domino's, when I was in India, I used to prefer eating pizzas whenever I went out with my friends.
+                And according to me it is necessary to have some.So, pizzas including beef and pork in them are not of
+                my choice. But they say "We serve the pizzas with finest ingredients" which according to me they use
+                this phrase just to attract more and more people and to expand their business. Slogan of Domino's Pizza
+                (OH YES WE DID) can u understand the meaning of this ? What they did ? I don't understand the meaning of
+                this slogan. According to me they have completely changed the meaning of these words what they actually
+                mean and this whole expression is meaningless as referred by Orwell.
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <div style="background: black;">
+        <h1 style="color: antiquewhite;text-align: center;font-size: xxx-large;padding: .5em 0;"> MENU <span
+            style="color: cornflowerblue;">GALLERY</span></h1>
+    </div>
+    <section class="items" id="menu">
+        
+<!-- CARDS 1 -->
+
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/new_york_style_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">New York Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    New York pizza is one of America’s most famous regional pizza types.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $25
+                    </h2>
+                </div>
+            </div>
+        </div>
+<!-- CARD 2 -->
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/sicilian_pizza_2.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">Sicilian Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    Sicilian pizza, also known as "sfincione," provides a thick cut of pizza with pillowy dough, a crunchy crust, and robust tomato sauce. 
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $32
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->
+
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/greek_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">Greek Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    Greek pizza was created by Greek immigrants who came to America and were introduced to Italian pizza.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $15
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CARD 4 -->
+
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/california_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">California Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    California pizza, or gourmet pizza, is known for its unusual ingredients.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $25
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/detroit_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;"> Detroit Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    This pizza features a thick, extra-crispy crust that is tender and airy on the inside.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $12
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CARD 6 -->
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/st_louis_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;"> St. Louis Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    St. Louis pizza features Provel cheese and a sweeter tomato sauce with a hefty dosage of oregano.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $30
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 7 -->
+
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/new_york_style_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">New York Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    New York pizza is one of America’s most famous regional pizza types.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $25
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 8 -->
+        <div class="food">
+            <!-- Image -->
+            <div>
+                <img style="width: 100%;height: 100%;object-fit: cover;border-top-left-radius: .8em;border-top-right-radius: .8em;"
+                    src="https://www.webstaurantstore.com/uploads/blog/2023/7/new_york_style_pizza.jpg" alt="">
+            </div>
+
+            <!-- DETAILS -->
+            <div style="background: cornflowerblue;border-bottom-left-radius: .8em;border-bottom-right-radius: .8em;">
+                <h1 style="margin: .4em .2em;font-size: xx-large;color: white;">New York Style Pizza</h1>
+                <p style="margin: 0 .3em;color: crimson ;font-weight: 900;">
+                    New York pizza is one of America’s most famous regional pizza types.
+                </p>
+
+                <div style="display: flex;justify-content: space-around;align-items: center;padding: 1em 0;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="red"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg>
+                    </div>
+                    <h2>
+                        $25
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+    <script>
+
+        var menuSVG = document.querySelector(".menu")
+        var menuBar = document.querySelector(".menu-bar")
+        menuSVG.addEventListener('click', ControlSlide)
+
+        function ControlSlide() {
+            // console.log(menuBar.classList)
+            menuBar.classList.toggle("fill")
+        }
+
+
+    </script>
+</body>
+
+</html>
